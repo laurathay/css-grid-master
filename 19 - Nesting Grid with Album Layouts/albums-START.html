@@ -100,18 +100,30 @@
 
   .albums{
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  /*  grid-template-columns: repeat(2, 1fr); */
+    grid-gap: 20px;
+
   }
 
   .album{
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-gap: 2px;
-    background: white 0.5;
+    /*grid-template-columns: repeat(2, 1fr);*/
+    grid-template-columns: 150px 1fr;
+    /*grid-gap: 2px; */
+    grid-gap: 10px;
+    /*background: white 0.5; plutot utiliser rgba pour avoir l'opacité*/
+    background: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    align-items: center;
+    color: white; /*possibilité de le mettre direct ici*/
+    font-weight: 100;
   }
 
   .album__artwork{
-    width:50%;
+    width:100%; /* pas vraiment besoin avec auto-fit et minmax dans grid template columns*/
+    /* chez Chrome elle ne se resize pas toute seule comme c'est 300x300 en image roots */
   }
 
   .album__details{
