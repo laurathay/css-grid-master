@@ -51,8 +51,90 @@
       border: 0;
     }
 
-    .gallery {}
+    /* mettre la gallery en grid  */
+    .gallery {
+      display: grid;
+      /* on le fait horizontalement pour les photos*/
+      grid-template-columns: repeat(auto-fill, 100px);
+      /* comme on ne sait pas comment verticalement elles doivent ressortir*/
+      grid-auto-rows: 100px;
+      /* pour éviter les cases vides , il faudra concat dans js après */
+      grid-auto-flow: dense;
+    }
 
+    /* pour éviter que les images ne s'entrechoquent */
+
+    .item{
+      overflow: hidden;
+      /* on revient ici pour les afficher en overlaping*/
+      display: grid;
+      grid-template-columns: 1;
+      grid-template-rows: 1;
+    }
+
+    /* pour que les images prennent toute leur places*/
+    /* ne pas oublier le width et le height sinon ne marche pas */
+    .item img{
+      grid-column: 1/ -1;
+      grid-row: 1/ -1;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .item__overlay{
+      background: #ffc60032; /* ca inclus deja la transparence dedans */
+      /* au moment ou je copie colle ca, le truc rouge va aller en haut*/
+      grid-column: 1/ -1;
+      grid-row: 1/ -1;
+      /* il faudra donc ajouter dans item img avec position relative*/
+      position : relative;
+      display: grid;
+      justify-items: center; /*pour centrer le bouton view*/
+      align-items: center;
+      transform: translateY(100%); /* on met ca pour que ca ne s'affiche pas mais on le remettre en hover */
+    }
+
+    .item__overlay button{
+      background: none;
+      border: 2px solid white;
+      color: white;
+      text-transform: uppercase;
+      background: rgba(0, 0, 0, 0.7);
+      padding: 5px;
+    }
+
+    .item:hover .item__overlay{
+      transform: translateY(0); /* c'est ici qu'on dit qu'il apparaitra quand la souris est en hover  */ 
+    }
+
+    /* on le fait pour la version verticale */
+
+    .item.v2{
+      grid-row: span 2;
+    }
+
+    .item.v3{
+      grid-row: span 3;
+    }
+
+    .item.v4{
+      grid-row: span 4;
+    }
+
+    /* on le fait pour la version horizontale */
+
+    .item.v2{
+      grid-column: span 2;
+    }
+
+    .item.v3{
+      grid-column:span 3;
+    }
+
+    .item.v4{
+      grid-column: span 4;
+    }
 
 
     .overlay {
@@ -82,6 +164,44 @@
   </style>
 
   <script>
+
+  //on commence par définir les 4 constantes sachant qu'il faut importer
+  // les images et qu'on veut le overlay
+    const gallery = document.querySelector('.gallery');
+    const overlay = document.querySelector('.overlay');
+    const overlayImage = overlay.querySelector('img');
+    const overlayImage = overlay.querySelector('.close');
+
+  //puis on fait une fonction pour voir comment on veut générer les contenus
+  // h pour horizontale et v pour verticale
+  // quand tu vas dans inspecter on voit que chaque div class= item h1 v1 etc...
+  // pour les images ce sont des chiffres qu'on les a nommé jusqu'a 12 donc
+  // ca prendra au hasard les images de 1 à 12
+
+    break;
+    function generateHTML([h, v]){
+      return `
+        <div class="item h${h} v${v}">
+          <img src="images/${randomNumber(12)}.jpg">
+          <div class="item__overlay">
+            <button>View -> </button>
+          </div>
+        </div>
+      `;
+    }
+  // c'est grace a cette fonction qu'on peut faire le randomNumber plus haut
+    function randomNumber(limit){
+      return Math.floor(Math.random() * limit) + 1;
+    }
+
+  //maintenant il dit qu'il veut des array dans des array
+  // là je ne comprends pas ce qu'on fait ...
+    const digits = Array.from({ length: 50}, () =>
+    [randomNumber(4), randomNumber(4)]).concat([1,1],[1,1],[1,1],[1,1],[1,1],[1,1],[1,1],[1,1],[1,1],[1,1],[1,1],[1,1],[1,1],[1,1]);
+
+    const html = digits.map(generateHTML).join('');
+    gallery.innerHTML = html;
+
   </script>
 </body>
 
