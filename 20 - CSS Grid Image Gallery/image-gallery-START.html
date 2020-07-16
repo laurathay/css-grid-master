@@ -105,7 +105,7 @@
     }
 
     .item:hover .item__overlay{
-      transform: translateY(0); /* c'est ici qu'on dit qu'il apparaitra quand la souris est en hover  */ 
+      transform: translateY(0); /* c'est ici qu'on dit qu'il apparaitra quand la souris est en hover  */
     }
 
     /* on le fait pour la version verticale */
@@ -190,6 +190,7 @@
       `;
     }
   // c'est grace a cette fonction qu'on peut faire le randomNumber plus haut
+  // floor pour arrondire et random pour avoir un chiffre au hasard
     function randomNumber(limit){
       return Math.floor(Math.random() * limit) + 1;
     }
@@ -197,9 +198,12 @@
   //maintenant il dit qu'il veut des array dans des array
   // là je ne comprends pas ce qu'on fait ...
     const digits = Array.from({ length: 50}, () =>
+  // retenir les concat et join 
     [randomNumber(4), randomNumber(4)]).concat([1,1],[1,1],[1,1],[1,1],[1,1],[1,1],[1,1],[1,1],[1,1],[1,1],[1,1],[1,1],[1,1],[1,1]);
 
+  // join pour concatener et les mettre les uns a la suite des autres (transofrme tableau en chaine de caractère)
     const html = digits.map(generateHTML).join('');
+    console.log(digits);
     gallery.innerHTML = html;
 
   </script>
